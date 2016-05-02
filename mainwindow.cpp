@@ -19,11 +19,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     _socket = NULL;
     _receivedPackages = 0;
 
-    grid->addWidget(new QLabel("DATA DO PACOTE:"), 1, 1);
+    grid->addWidget(new QLabel("PACKAGE DATE:"), 1, 1);
     _dataPacote = new QLCDNumber(this);
     _dataPacote->setDigitCount(10);
     grid->addWidget(_dataPacote, 1, 2);
-    grid->addWidget(new QLabel("HORA DO PACOTE:"), 1, 3);
+    grid->addWidget(new QLabel("PACKAGE TIME:"), 1, 3);
     _horaPacote = new QLCDNumber(this);
     _horaPacote->setDigitCount(8);
     grid->addWidget(_horaPacote, 1, 4);
@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     _longitude->setDigitCount(8);
     grid->addWidget(_longitude, 2, 4);
 
-    grid->addWidget(new QLabel("VELOCIDADE EM KM/H:"), 3, 1);
+    grid->addWidget(new QLabel("SPEED IN KM/H:"), 3, 1);
     _velocidade = new QLCDNumber(this);
     _velocidade->setDigitCount(6);
     grid->addWidget(_velocidade, 3, 2);
@@ -45,10 +45,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     _altitude = new QLCDNumber(this);
     grid->addWidget(_altitude, 3, 4);
 
-    grid->addWidget(new QLabel("Nº DE SATELITES:"), 4, 1);
+    grid->addWidget(new QLabel("Nº OF SATELLITES:"), 4, 1);
     _numeroSatelites = new QLCDNumber(this);
     grid->addWidget(_numeroSatelites, 4, 2);
-    grid->addWidget(new QLabel("PRECISÃO HORIZONTAL:"), 4, 3);
+    grid->addWidget(new QLabel("HORIZONTAL PRECISION:"), 4, 3);
     _precisaoPacote = new QLCDNumber(this);
     grid->addWidget(_precisaoPacote, 4, 4);
 
@@ -99,7 +99,7 @@ void MainWindow::showGPS(QByteArray gpsPackage) {
         _sateliteList->clear();
         _sateliteInfo->clear();
         for(int index = 0; index < _gps->_gpgsa->_satelites->size(); index++) {
-            _sateliteList->addItem("SATÉLITE NÚMERO " + QString::number(_gps->_gpgsa->_satelites->at(index)));
+            _sateliteList->addItem("SATELLITE NUMBER " + QString::number(_gps->_gpgsa->_satelites->at(index)));
         }
         if(!_sateliteList->size().isEmpty()) {
             for(int index = 0; index < _gps->_gpgsa->_satelites->size(); index++) {
@@ -122,9 +122,9 @@ void MainWindow::updateSateliteInfo() {
             }
             if(_gps->_gpgsv->_satelites->at(index)._id == _selectedSateliteId) {
                 SATELITE satelite = _gps->_gpgsv->_satelites->at(index);
-                _sateliteInfo->setText(QString("ID = " + QString::number(satelite._id) + "\nELEVAÇÃO = " +
-                       QString::number(satelite._elevation) + "° (Máximo 90°)\n" + "AZIMUTH = " + QString::number(satelite._azimuth) +
-                       "° (Máximo 359°)\n" + "SNR = " + QString::number(satelite._snr) + " dB\n"));
+                _sateliteInfo->setText(QString("ID = " + QString::number(satelite._id) + "\nALTITUDE = " +
+                       QString::number(satelite._elevation) + "° (Max. 90°)\n" + "AZIMUTH = " + QString::number(satelite._azimuth) +
+                       "° (Max. 359°)\n" + "SNR = " + QString::number(satelite._snr) + " dB\n"));
                 break;
             }
         }

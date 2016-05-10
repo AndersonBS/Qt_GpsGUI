@@ -2,6 +2,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     this->setCentralWidget(new QWidget);
+    this->setStatusBar(new QStatusBar(this));
     QGridLayout *grid = new QGridLayout(this->centralWidget());
 
     QToolBar *toolbar = this->addToolBar("Main Toolbar");
@@ -65,8 +66,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     _console->setReadOnly(true);
     grid->addWidget(_console, 7, 1, 3, 4);
 
-    _statusBar = new QStatusBar(this);
-    this->setStatusBar(_statusBar);
+
 
     QObject::connect(_sateliteList, SIGNAL(itemSelectionChanged()), this, SLOT(updateSateliteInfo()));
 }
@@ -239,7 +239,7 @@ void MainWindow::stop() {
 
 void MainWindow::updateStatusBar() {
     if(_serial == NULL && _socket == NULL) {
-        _statusBar->showMessage(QString("DISCONNECTED"));
+        this->statusBar()->showMessage(QString("DISCONNECTED"));
     } else {
         QString str = QString("CONNECTED ON: ");
         if(_serial != NULL) {
@@ -250,6 +250,6 @@ void MainWindow::updateStatusBar() {
             str.append(QString("Web Socket on port ") + QString::number(_socket->getServerPort()) + "; ");
         }
         str.append(QString("PACKAGES RECEIVED: ") + QString::number(++_receivedPackages));
-        _statusBar->showMessage(str);
+        this->statusBar()->showMessage(str);
     }
 }

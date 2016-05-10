@@ -48,7 +48,6 @@ private:
     QTextEdit *_sateliteInfo;
 
     QTextEdit *_console;
-    QStatusBar *_statusBar;
 
     int _selectedSateliteId;
     int _receivedPackages;

@@ -30,11 +30,11 @@ bool Serial::openSerialPort(QString portName,
     _serialPort->setStopBits(stopBits);
     _serialPort->setFlowControl(flowControl);
     if (_serialPort->open(QIODevice::ReadWrite)) {
-        return true;
         qDebug() << "Serial port opened!";
+        return true;
     } else {
-        return false;
         qDebug() << "Could not open Serial!";
+        return false;
     }
 }
 

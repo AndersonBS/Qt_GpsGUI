@@ -16,7 +16,7 @@ Serial::~Serial() {
     delete _serialBuffer;
 }
 
-void Serial::openSerialPort(QString portName,
+bool Serial::openSerialPort(QString portName,
                             QSerialPort::BaudRate baudRate,
                             QSerialPort::DataBits dataBits,
                             QSerialPort::Parity parity,
@@ -30,8 +30,10 @@ void Serial::openSerialPort(QString portName,
     _serialPort->setStopBits(stopBits);
     _serialPort->setFlowControl(flowControl);
     if (_serialPort->open(QIODevice::ReadWrite)) {
+        return true;
         qDebug() << "Serial port opened!";
     } else {
+        return false;
         qDebug() << "Could not open Serial!";
     }
 }

@@ -164,17 +164,17 @@ Serial *MainWindow::setupSerialPortDialog() {
     form.addRow(QString("Data Bits: "), dataBits);
 
     QComboBox *parity = new QComboBox(&dialog);
-    parity->addItem(QString("0 No Parity"), QSerialPort::NoParity);
-    parity->addItem(QString("2 Even Parity"), QSerialPort::EvenParity);
-    parity->addItem(QString("3 Odd Parity"), QSerialPort::OddParity);
-    parity->addItem(QString("4 Space Parity"), QSerialPort::SpaceParity);
-    parity->addItem(QString("5 Mark Parity"), QSerialPort::MarkParity);
+    parity->addItem(QString("No Parity"), QSerialPort::NoParity);
+    parity->addItem(QString("Even Parity"), QSerialPort::EvenParity);
+    parity->addItem(QString("Odd Parity"), QSerialPort::OddParity);
+    parity->addItem(QString("Space Parity"), QSerialPort::SpaceParity);
+    parity->addItem(QString("Mark Parity"), QSerialPort::MarkParity);
     form.addRow(QString("Parity: "), parity);
 
     QComboBox *stopBits = new QComboBox(&dialog);
-    stopBits->addItem(QString("1 One"), QSerialPort::OneStop);
-    stopBits->addItem(QString("3 One And a Half"), QSerialPort::OneAndHalfStop);
-    stopBits->addItem(QString("2 Two"), QSerialPort::TwoStop);
+    stopBits->addItem(QString("One"), QSerialPort::OneStop);
+    stopBits->addItem(QString("One And a Half"), QSerialPort::OneAndHalfStop);
+    stopBits->addItem(QString("Two"), QSerialPort::TwoStop);
     form.addRow(QString("Stop Bits: "), stopBits);
 
     QComboBox *flowControl = new QComboBox(&dialog);
@@ -189,13 +189,14 @@ Serial *MainWindow::setupSerialPortDialog() {
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
     if (dialog.exec() == QDialog::Accepted) {
         Serial *serial = new Serial;
-        //qDebug() << stopBits->currentIndex() << stopBits->currentText() << stopBits->currentData(stopBits->currentIndex());
-        serial->openSerialPort(portName->currentData(portName->currentIndex()).toString(),
-                               static_cast<QSerialPort::BaudRate>(baudRate->currentText().toInt()),
-                               static_cast<QSerialPort::DataBits>(dataBits->currentText().toInt()),
-                               static_cast<QSerialPort::Parity>(parity->currentText().left(1).toInt()),
-                               static_cast<QSerialPort::StopBits>(stopBits->currentText().left(1).toInt()));
-        return serial;
+        if(serial->openSerialPort(portName->itemData(portName->currentIndex()).toString(),
+                               static_cast<QSerialPort::BaudRate>(baudRate->itemData(baudRate->currentIndex()).toInt()),
+                               static_cast<QSerialPort::DataBits>(dataBits->itemData(dataBits->currentIndex()).toInt()),
+                               static_cast<QSerialPort::Parity>(parity->itemData(parity->currentIndex()).toInt()),
+                               static_cast<QSerialPort::StopBits>(stopBits->itemData(stopBits->currentIndex()).toInt()),
+                               static_cast<QSerialPort::FlowControl>(flowControl->itemData(flowControl->currentIndex()).toInt()))) {
+            return serial;
+        }
     }
     return NULL;
 }

@@ -21,7 +21,7 @@ public:
 
     Serial();
     ~Serial();
-    void openSerialPort(QString portName,
+    bool openSerialPort(QString portName,
                         QSerialPort::BaudRate baudRate = QSerialPort::Baud115200,
                         QSerialPort::DataBits dataBits = QSerialPort::Data8,
                         QSerialPort::Parity parity = QSerialPort::NoParity,
